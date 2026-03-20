@@ -4,101 +4,86 @@ const path = require('path');
 // Years: 2021-2033
 const years = [2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033];
 
-// Geographies with their region grouping
+// US-only geography with regional breakdown
 const regions = {
-  "North America": ["U.S.", "Canada"],
-  "Europe": ["U.K.", "Germany", "Italy", "France", "Spain", "Russia", "Rest of Europe"],
-  "Asia Pacific": ["China", "India", "Japan", "South Korea", "ASEAN", "Australia", "Rest of Asia Pacific"],
-  "Latin America": ["Brazil", "Argentina", "Mexico", "Rest of Latin America"],
-  "Middle East & Africa": ["GCC", "South Africa", "Rest of Middle East & Africa"]
+  "U.S.": ["Northeast", "Southeast", "Midwest", "Southwest", "West"]
 };
 
-// New segment definitions with market share splits (proportions within each segment type)
+// Aquamation segment definitions with market share splits
 const segmentTypes = {
-  "By Type": {
-    "Sub-Normothermic Perfusion (20–34°C)": 0.55,
-    "Warm or Normothermic Perfusion (35–37°C)": 0.45
+  "by Application": {
+    "Human Aquamation": 0.45,
+    "Pet or Animal Aquamation": 0.35,
+    "Medical & Research Specimen Disposal": 0.20
   },
-  "By Organ Type": {
-    "Liver": 0.35,
-    "Heart": 0.22,
-    "Lung": 0.18,
-    "Kidney": 0.15,
-    "Others (Pancreas, Small bowel / Intestine, Composite Tissues / Limb Perfusion (emerging use cases))": 0.10
+  "by System Type": {
+    "Batch Aquamation Systems": 0.60,
+    "Continuous Aquamation Systems": 0.40
   },
-  "Application / Use Case": {
-    "Organ Preservation": 0.30,
-    "Viability Assessment": 0.25,
-    "Physiologic Transport": 0.20,
-    "Reconditioning Marginal Organs": 0.15,
-    "Others (Research Use / Protocol development)": 0.10
+  "by Capacity": {
+    "Small Capacity Systems (up to 100 lbs / ~45 kg) — typically pet and small animal systems": 0.30,
+    "Medium Capacity Systems (100–500 lbs / ~45–225 kg) — single human body and large animal systems": 0.45,
+    "Large Capacity Systems (500+ lbs / ~225+ kg) — institutional, and high-volume systems": 0.25
   },
   "By End User": {
-    "Hospitals & Clinics": 0.40,
-    "Specialty Clinic/Centers": 0.25,
-    "Transplant Centers": 0.25,
-    "Others (Research Institutes/Centers, Organ Procurement Organizations, etc.)": 0.10
+    "Funeral Homes & Cremation Service Providers": 0.30,
+    "Veterinary Clinics & Pet Aftercare / Pet Cremation Centers": 0.25,
+    "Hospitals / Medical Schools / Donated Body Programs": 0.20,
+    "Research Institutions / Laboratories": 0.15,
+    "Municipal Facilities": 0.10
+  },
+  "by Technology Or Process Type": {
+    "Low Temperature Alkaline Hydrolysis": 0.55,
+    "High Temperature Alkaline Hydrolysis": 0.45
   }
 };
 
-// Regional base values (USD Million) for 2021 - total market per region
-// Global Normothermic Machine Perfusion market ~$300M in 2021, growing ~12% CAGR
+// US base value (USD Million) for 2021 - total market ~$80M
 const regionBaseValues = {
-  "North America": 120,
-  "Europe": 90,
-  "Asia Pacific": 50,
-  "Latin America": 20,
-  "Middle East & Africa": 15
+  "U.S.": 80
 };
 
-// Country share within region (must sum to ~1.0)
+// Regional share within US
 const countryShares = {
-  "North America": { "U.S.": 0.82, "Canada": 0.18 },
-  "Europe": { "U.K.": 0.18, "Germany": 0.22, "Italy": 0.12, "France": 0.16, "Spain": 0.10, "Russia": 0.08, "Rest of Europe": 0.14 },
-  "Asia Pacific": { "China": 0.28, "India": 0.12, "Japan": 0.25, "South Korea": 0.12, "ASEAN": 0.10, "Australia": 0.07, "Rest of Asia Pacific": 0.06 },
-  "Latin America": { "Brazil": 0.45, "Argentina": 0.15, "Mexico": 0.25, "Rest of Latin America": 0.15 },
-  "Middle East & Africa": { "GCC": 0.45, "South Africa": 0.25, "Rest of Middle East & Africa": 0.30 }
+  "U.S.": { "Northeast": 0.25, "Southeast": 0.22, "Midwest": 0.20, "Southwest": 0.18, "West": 0.15 }
 };
 
-// Growth rates (CAGR) per region - slightly different for variety
+// Growth rate (CAGR) ~14% for Aquamation market
 const regionGrowthRates = {
-  "North America": 0.115,
-  "Europe": 0.108,
-  "Asia Pacific": 0.145,
-  "Latin America": 0.125,
-  "Middle East & Africa": 0.118
+  "U.S.": 0.14
 };
 
-// Segment-specific growth multipliers (relative to regional base CAGR)
+// Segment-specific growth multipliers
 const segmentGrowthMultipliers = {
-  "By Type": {
-    "Sub-Normothermic Perfusion (20–34°C)": 0.95,
-    "Warm or Normothermic Perfusion (35–37°C)": 1.07
+  "by Application": {
+    "Human Aquamation": 1.10,
+    "Pet or Animal Aquamation": 1.05,
+    "Medical & Research Specimen Disposal": 0.85
   },
-  "By Organ Type": {
-    "Liver": 1.08,
-    "Heart": 1.05,
-    "Lung": 1.12,
-    "Kidney": 0.95,
-    "Others (Pancreas, Small bowel / Intestine, Composite Tissues / Limb Perfusion (emerging use cases))": 1.20
+  "by System Type": {
+    "Batch Aquamation Systems": 0.95,
+    "Continuous Aquamation Systems": 1.08
   },
-  "Application / Use Case": {
-    "Organ Preservation": 0.92,
-    "Viability Assessment": 1.15,
-    "Physiologic Transport": 1.05,
-    "Reconditioning Marginal Organs": 1.18,
-    "Others (Research Use / Protocol development)": 1.10
+  "by Capacity": {
+    "Small Capacity Systems (up to 100 lbs / ~45 kg) — typically pet and small animal systems": 1.05,
+    "Medium Capacity Systems (100–500 lbs / ~45–225 kg) — single human body and large animal systems": 1.00,
+    "Large Capacity Systems (500+ lbs / ~225+ kg) — institutional, and high-volume systems": 0.95
   },
   "By End User": {
-    "Hospitals & Clinics": 0.98,
-    "Specialty Clinic/Centers": 1.10,
-    "Transplant Centers": 1.08,
-    "Others (Research Institutes/Centers, Organ Procurement Organizations, etc.)": 1.05
+    "Funeral Homes & Cremation Service Providers": 1.08,
+    "Veterinary Clinics & Pet Aftercare / Pet Cremation Centers": 1.05,
+    "Hospitals / Medical Schools / Donated Body Programs": 0.95,
+    "Research Institutions / Laboratories": 0.90,
+    "Municipal Facilities": 0.88
+  },
+  "by Technology Or Process Type": {
+    "Low Temperature Alkaline Hydrolysis": 0.97,
+    "High Temperature Alkaline Hydrolysis": 1.04
   }
 };
 
-// Volume multiplier: units per USD Million (rough: ~500 units per $1M for perfusion devices)
-const volumePerMillionUSD = 480;
+// Volume multiplier: units per USD Million
+const volumePerMillionUSD = 12;
 
 // Seeded pseudo-random for reproducibility
 let seed = 42;
@@ -134,12 +119,11 @@ function generateData(isVolume) {
   const roundFn = isVolume ? roundToInt : roundTo1;
   const multiplier = isVolume ? volumePerMillionUSD : 1;
 
-  // Generate data for each region and country
-  for (const [regionName, countries] of Object.entries(regions)) {
+  for (const [regionName, subRegions] of Object.entries(regions)) {
     const regionBase = regionBaseValues[regionName] * multiplier;
     const regionGrowth = regionGrowthRates[regionName];
 
-    // Region-level data
+    // Region-level data (U.S.)
     data[regionName] = {};
     for (const [segType, segments] of Object.entries(segmentTypes)) {
       data[regionName][segType] = {};
@@ -150,33 +134,31 @@ function generateData(isVolume) {
       }
     }
 
-    // Add "By Country" for each region
-    data[regionName]["By Country"] = {};
-    for (const country of countries) {
-      const cShare = countryShares[regionName][country];
-      // Use a slight variation of region growth per country
-      const countryGrowthVariation = 1 + (seededRandom() - 0.5) * 0.06;
-      const countryBase = regionBase * cShare;
-      const countryGrowth = regionGrowth * countryGrowthVariation;
-      data[regionName]["By Country"][country] = generateTimeSeries(countryBase, countryGrowth, roundFn);
+    // Add "By Region" for the US
+    data[regionName]["By Region"] = {};
+    for (const subRegion of subRegions) {
+      const cShare = countryShares[regionName][subRegion];
+      const subRegionGrowthVariation = 1 + (seededRandom() - 0.5) * 0.06;
+      const subRegionBase = regionBase * cShare;
+      const subRegionGrowth = regionGrowth * subRegionGrowthVariation;
+      data[regionName]["By Region"][subRegion] = generateTimeSeries(subRegionBase, subRegionGrowth, roundFn);
     }
 
-    // Country-level data
-    for (const country of countries) {
-      const cShare = countryShares[regionName][country];
-      const countryBase = regionBase * cShare;
-      const countryGrowthVariation = 1 + (seededRandom() - 0.5) * 0.04;
-      const countryGrowth = regionGrowth * countryGrowthVariation;
+    // Sub-region level data
+    for (const subRegion of subRegions) {
+      const cShare = countryShares[regionName][subRegion];
+      const subRegionBase = regionBase * cShare;
+      const subRegionGrowthVariation = 1 + (seededRandom() - 0.5) * 0.04;
+      const subRegionGrowth = regionGrowth * subRegionGrowthVariation;
 
-      data[country] = {};
+      data[subRegion] = {};
       for (const [segType, segments] of Object.entries(segmentTypes)) {
-        data[country][segType] = {};
+        data[subRegion][segType] = {};
         for (const [segName, share] of Object.entries(segments)) {
-          const segGrowth = countryGrowth * segmentGrowthMultipliers[segType][segName];
-          const segBase = countryBase * share;
-          // Add slight country-specific variation to segment share
+          const segGrowth = subRegionGrowth * segmentGrowthMultipliers[segType][segName];
+          const segBase = subRegionBase * share;
           const shareVariation = 1 + (seededRandom() - 0.5) * 0.1;
-          data[country][segType][segName] = generateTimeSeries(segBase * shareVariation, segGrowth, roundFn);
+          data[subRegion][segType][segName] = generateTimeSeries(segBase * shareVariation, segGrowth, roundFn);
         }
       }
     }
@@ -197,7 +179,6 @@ fs.writeFileSync(path.join(outDir, 'value.json'), JSON.stringify(valueData, null
 fs.writeFileSync(path.join(outDir, 'volume.json'), JSON.stringify(volumeData, null, 2));
 
 console.log('Generated value.json and volume.json successfully');
-console.log('Value geographies:', Object.keys(valueData).length);
-console.log('Volume geographies:', Object.keys(volumeData).length);
-console.log('Segment types:', Object.keys(valueData['North America']));
-console.log('Sample - North America, By Type:', JSON.stringify(valueData['North America']['By Type'], null, 2));
+console.log('Value geographies:', Object.keys(valueData));
+console.log('Segment types:', Object.keys(valueData['U.S.']));
+console.log('Sample - U.S., by Application:', JSON.stringify(valueData['U.S.']['by Application'], null, 2));

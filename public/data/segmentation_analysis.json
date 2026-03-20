@@ -7,19 +7,18 @@
     },
     "by System Type": {
       "Batch Aquamation Systems": {},
-      "Continuous Aquamation Systems": {},
-      "Automated Aquamation Systems": {}
+      "Continuous Aquamation Systems": {}
     },
     "by Capacity": {
-      "Small Capacity Systems (1 to 3 Bodies per Cycle)": {},
-      "Medium Capacity Systems (3 to 10 Bodies per Cycle)": {},
-      "Large Capacity Systems (More than 10 Bodies per Cycle)": {}
+      "Small Capacity Systems (up to 100 lbs / ~45 kg) — typically pet and small animal systems": {},
+      "Medium Capacity Systems (100–500 lbs / ~45–225 kg) — single human body and large animal systems": {},
+      "Large Capacity Systems (500+ lbs / ~225+ kg) — institutional, and high-volume systems": {}
     },
     "By End User": {
-      "Funeral Homes & Crematories": {},
-      "Veterinary Clinics & Pet Cremation Centers": {},
-      "Hospitals & Medical Schools": {},
-      "Research Laboratories": {},
+      "Funeral Homes & Cremation Service Providers": {},
+      "Veterinary Clinics & Pet Aftercare / Pet Cremation Centers": {},
+      "Hospitals / Medical Schools / Donated Body Programs": {},
+      "Research Institutions / Laboratories": {},
       "Municipal Facilities": {}
     },
     "by Technology Or Process Type": {
