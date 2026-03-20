@@ -1,63 +1,37 @@
 {
-  "Global": {
-    "By Type": {
-      "Sub-Normothermic Perfusion (20–34°C)": {},
-      "Warm or Normothermic Perfusion (35–37°C)": {}
+  "U.S.": {
+    "by Application": {
+      "Human Aquamation": {},
+      "Pet or Animal Aquamation": {},
+      "Medical & Research Specimen Disposal": {}
     },
-    "By Organ Type": {
-      "Liver": {},
-      "Heart": {},
-      "Lung": {},
-      "Kidney": {},
-      "Others (Pancreas, Small bowel / Intestine, Composite Tissues / Limb Perfusion (emerging use cases))": {}
+    "by System Type": {
+      "Batch Aquamation Systems": {},
+      "Continuous Aquamation Systems": {},
+      "Automated Aquamation Systems": {}
     },
-    "Application / Use Case": {
-      "Organ Preservation": {},
-      "Viability Assessment": {},
-      "Physiologic Transport": {},
-      "Reconditioning Marginal Organs": {},
-      "Others (Research Use / Protocol development)": {}
+    "by Capacity": {
+      "Small Capacity Systems (1 to 3 Bodies per Cycle)": {},
+      "Medium Capacity Systems (3 to 10 Bodies per Cycle)": {},
+      "Large Capacity Systems (More than 10 Bodies per Cycle)": {}
     },
     "By End User": {
-      "Hospitals & Clinics": {},
-      "Specialty Clinic/Centers": {},
-      "Transplant Centers": {},
-      "Others (Research Institutes/Centers, Organ Procurement Organizations, etc.)": {}
+      "Funeral Homes & Crematories": {},
+      "Veterinary Clinics & Pet Cremation Centers": {},
+      "Hospitals & Medical Schools": {},
+      "Research Laboratories": {},
+      "Municipal Facilities": {}
+    },
+    "by Technology Or Process Type": {
+      "Low Temperature Alkaline Hydrolysis": {},
+      "High Temperature Alkaline Hydrolysis": {}
     },
     "By Region": {
-      "North America": {
-        "U.S.": {},
-        "Canada": {}
-      },
-      "Europe": {
-        "U.K.": {},
-        "Germany": {},
-        "Italy": {},
-        "France": {},
-        "Spain": {},
-        "Russia": {},
-        "Rest of Europe": {}
-      },
-      "Asia Pacific": {
-        "China": {},
-        "India": {},
-        "Japan": {},
-        "South Korea": {},
-        "ASEAN": {},
-        "Australia": {},
-        "Rest of Asia Pacific": {}
-      },
-      "Latin America": {
-        "Brazil": {},
-        "Argentina": {},
-        "Mexico": {},
-        "Rest of Latin America": {}
-      },
-      "Middle East & Africa": {
-        "GCC": {},
-        "South Africa": {},
-        "Rest of Middle East & Africa": {}
-      }
+      "Northeast": {},
+      "Southeast": {},
+      "Midwest": {},
+      "Southwest": {},
+      "West": {}
     }
   }
 }

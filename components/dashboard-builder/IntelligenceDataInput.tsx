@@ -379,17 +379,19 @@ export function IntelligenceDataInput({
   }
 
   const regions = [
-    'North America',
-    'Latin America',
-    'Europe',
-    'Asia Pacific',
-    'Middle East & Africa'
+    'Northeast',
+    'Southeast',
+    'Midwest',
+    'Southwest',
+    'West'
   ]
 
   const endUserSegments = [
-    'Residential',
-    'Commercial and Industrial',
-    'Utility-scale'
+    'Funeral Homes & Crematories',
+    'Veterinary Clinics & Pet Cremation Centers',
+    'Hospitals & Medical Schools',
+    'Research Laboratories',
+    'Municipal Facilities'
   ]
 
   const distributorSegments = [
